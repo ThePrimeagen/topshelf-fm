@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+dd($_ENV);
+
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect('/vote');
