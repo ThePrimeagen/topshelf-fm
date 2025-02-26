@@ -68,7 +68,7 @@ new class extends Component {
         @endif
         </div>
 
-        <div class="mt-6 grid grid-cols-2 gap-2">
+        <div class="mt-6 grid sm:grid-cols-2 gap-2">
             <div wire:poll.30s>
                 <h2>Hot Questions</h2>
                 <ul>
