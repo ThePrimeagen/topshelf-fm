@@ -2,3 +2,5 @@
 
 - Moderator fatures:
     - Merge questions
+
+- Finish the TODO list
