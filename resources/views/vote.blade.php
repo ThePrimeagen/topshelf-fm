@@ -62,7 +62,7 @@ new class extends Component {
         </div>
 
         <div class="mt-6 grid grid-cols-2 gap-2">
-            <div wire:poll.30s>
+            <div>
                 <h2>Hot Questions</h2>
                 <ul>
                     @foreach (Question::getSortedQuestions() as $question)
@@ -73,7 +73,7 @@ new class extends Component {
                 </ul>
             </div>
 
-            <div wire:poll.30s>
+            <div>
                 <h2>Latest Questions</h2>
                 <ul>
                     @foreach (Question::getRecentQuestions() as $question)
