@@ -38,7 +38,7 @@ new class extends Component {
 @if (Auth::user()->isAdminUser())
     <form>
         <div class="flex gap-4 max-w-xl">
-            <flux:input wire:model="topic" />
+            <flux:input wire:model="topic" class="hover:scale-105 duration-200 hover:shadow-lg shadow-zinc-800/50 dark:shadow-zinc-900/50" />
             <flux:button wire:click="save"> Save </flux:button>
             <flux:button wire:click="clear"> Clear Questions </flux:button>
         </div>

@@ -12,7 +12,7 @@ new class extends Component {
 <x-layouts.app>
 <section class="w-full">
     <div class="relative mb-6 w-full">
-        <flux:heading size="xl" level="1">Settings</flux:heading>
+        <flux:heading size="xl" level="1" class="hover:scale-105 duration-200 hover:shadow-lg shadow-zinc-800/50 dark:shadow-zinc-900/50">Settings</flux:heading>
         <flux:subheading size="lg" class="mb-6">{{ __('Manage your profile and account settings') }}</flux:subheading>
         <flux:separator variant="subtle" />
     </div>
