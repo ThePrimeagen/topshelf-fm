@@ -42,7 +42,7 @@ new class extends Component {
         <div class="mt-4" wire:poll.10s>
             @if (Auth::user()->canSubmitQuestion())
             <form wire:submit="saveQuestion">
-                <flux:input.group>
+                <flux:input.group class="hover:scale-105 duration-200 hover:shadow-lg shadow-zinc-800/50 dark:shadow-zinc-900/50">
                     <flux:input wire:model="question" placeholder="Your Greatest Query" />
                     <flux:button type="submit" class="cursor-pointer">Submit</flux:button>
                 </flux:input.group>
