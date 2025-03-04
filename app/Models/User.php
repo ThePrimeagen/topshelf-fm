@@ -71,6 +71,11 @@ class User extends Authenticatable
         return DB::table("topics")->count() > 0 && $this->questions()->doesntExist();
     }
 
+    public function votes()
+    {
+        return $this->hasMany(QuestionVote::class);
+    }
+
 
     /**
      * Get the user's initials

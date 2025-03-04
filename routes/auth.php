@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Twitch;
+use App\TwitchSubscription;
 
 Route::middleware('guest')->group(function () {
     Route::get("login", function () {
@@ -23,12 +24,6 @@ Route::middleware('guest')->group(function () {
                 $twitchUser->id,
             );
 
-            $pokiSub = Twitch::checkUserSubscription(
-                $twitchUser->token,
-                env("TWITCH_FRIENDS_ID"),
-                $twitchUser->id,
-            );
-
             $user = User::updateOrCreate([
                 "twitch_id" => $twitchUser->id,
             ], [
@@ -39,7 +34,7 @@ Route::middleware('guest')->group(function () {
                 'twitch_expires_in' => $twitchUser->expiresIn,
                 'twitch_avatar_url' => $twitchUser->avatar,
                 'twitch_subscription' => $twitchSub,
-                'poki_sub' => $pokiSub,
+                'poki_sub' => TwitchSubscription::None,
             ]);
 
             Auth::login($user);
