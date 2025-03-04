@@ -1,13 +1,14 @@
 <?php
 namespace App;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 class Twitch {
 
     public static function checkUserSubscription(string $accessToken, string $channelId, string $userId): TwitchSubscription {
         $response = Http::withHeaders([
-            'Client-ID' => env('TWITCH_CLIENT_ID'),
+            'Client-ID' => Config::get('services.twitch.client_id'),
             'Authorization' => 'Bearer ' . $accessToken,
         ])->get('https://api.twitch.tv/helix/subscriptions/user', [
             'broadcaster_id' => $channelId,
