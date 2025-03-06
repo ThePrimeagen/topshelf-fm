@@ -24,4 +24,14 @@ enum TwitchSubscription: string
             default => 0,
         };
     }
+
+    public function getVoteValue(): int 
+    {
+        return match ($this) {
+            self::None => 1,
+            self::Tier1 => 2,
+            self::Tier2 => 4,
+            self::Tier3 => 8,
+        };
+    }
 } 

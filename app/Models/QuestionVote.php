@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Enums\TwitchSubscription;
 
 /**
  * 
@@ -80,19 +81,13 @@ class QuestionVote extends Model
      *
      * @param int $questionId
      * @param int $userId
+     * @param TwitchSubscription $subscription
      * @return QuestionVote
      */
-    public static function upvote(int $questionId, int $userId): QuestionVote
+    public static function upvote(int $questionId, int $userId, TwitchSubscription $subscription = TwitchSubscription::None): QuestionVote
     {
-        return static::updateOrCreate(
-            [
-                'question_id' => $questionId,
-                'user_id' => $userId,
-            ],
-            [
-                'count' => 1,
-            ]
-        );
+        $voteWeight = $subscription->getVoteValue();
+        return static::vote($questionId, $userId, $voteWeight);
     }
 
     /**
@@ -100,9 +95,24 @@ class QuestionVote extends Model
      *
      * @param int $questionId
      * @param int $userId
+     * @param TwitchSubscription $subscription
      * @return QuestionVote
      */
-    public static function downvote(int $questionId, int $userId): QuestionVote
+    public static function downvote(int $questionId, int $userId, TwitchSubscription $subscription = TwitchSubscription::None): QuestionVote
+    {
+        $voteWeight = $subscription->getVoteValue();
+        return static::vote($questionId, $userId, -$voteWeight);
+    }
+
+    /**
+     * Vote on a question with a specified count.
+     *
+     * @param int $questionId
+     * @param int $userId
+     * @param int $count
+     * @return QuestionVote
+     */
+    private static function vote(int $questionId, int $userId, int $count): QuestionVote
     {
         return static::updateOrCreate(
             [
@@ -110,7 +120,7 @@ class QuestionVote extends Model
                 'user_id' => $userId,
             ],
             [
-                'count' => -1,
+                'count' => $count,
             ]
         );
     }
