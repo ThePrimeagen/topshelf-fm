@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;
+use App\Enums\TwitchSubscription;
 
 new class extends Component {
     public Question $question;
+    public TwitchSubscription $subscription;
     public int $voteCount;
     public array $userVotes;
     public bool $canEdit;
@@ -19,12 +21,13 @@ new class extends Component {
             $this->canEdit = false;
         } else {
             $this->canEdit = Auth::user()->isAdminUser() || Auth::user()->id === $this->question->user_id;
+            $this->subscription = Auth::user()->getHighestSubscription();
         }
     }
 
     public function upvote(Question $question)
     {
-        QuestionVote::upvote($question->id, Auth::user()->id);
+        QuestionVote::upvote($question->id, Auth::user()->id, $this->subscription);
 
         $this->voteCount = $this->question->voteCount();
         $this->userVotes[$question->id] = 1;
@@ -32,7 +35,7 @@ new class extends Component {
 
     public function downvote(Question $question)
     {
-        QuestionVote::downvote($question->id, Auth::user()->id);
+        QuestionVote::downvote($question->id, Auth::user()->id, $this->subscription);
 
         $this->voteCount = $this->question->voteCount();
         $this->userVotes[$question->id] = -1;
@@ -45,7 +48,6 @@ new class extends Component {
         }
 
         $this->question->delete();
-
         $this->dispatch('question-deleted');
     }
 }; ?>

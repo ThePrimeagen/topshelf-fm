@@ -25,6 +25,7 @@ new class extends Component {
         ]);
 
         $user = Auth::user();
+        $subscription = $user->getHighestSubscription();
 
         // TODO: Make this prettier
         if (!$user->canSubmitQuestion()) {
@@ -38,7 +39,7 @@ new class extends Component {
         ]);
 
         // Automatically upvote the user's own question
-        $vote = QuestionVote::upvote($question->id, $user->id);
+        $vote = QuestionVote::upvote($question->id, $user->id, $subscription);
         $this->userVotes[$question->id] = $vote->count;
 
         $this->question = "";
@@ -62,16 +63,16 @@ new class extends Component {
             </flux:input.group>
         </form>
         @else
-            @if (DB::table("topics")->count() > 0)
-            <div class="items-center flex gap-2">
-                <flux:heading>Question Limit Reached</flux:heading>
-                <flux:button wire:click="clearUserQuestion" variant="danger" size="xs" inset="left" class="ml-1 flex items-center gap-2 cursor-pointer" :loading="false">
-                    <flux:icon.x-mark name="xmark" variant="outline" class="size-4 text-white [&_path]:stroke-[2.25]" />
-                </flux:button>
-            </div>
-            @else
-            <flux:heading>There is no topic</flux:heading>
-            @endif
+        @if (DB::table("topics")->count() > 0)
+        <div class="items-center flex gap-2">
+            <flux:heading>Question Limit Reached</flux:heading>
+            <flux:button wire:click="clearUserQuestion" variant="danger" size="xs" inset="left" class="ml-1 flex items-center gap-2 cursor-pointer" :loading="false">
+                <flux:icon.x-mark name="xmark" variant="outline" class="size-4 text-white [&_path]:stroke-[2.25]" />
+            </flux:button>
+        </div>
+        @else
+        <flux:heading>There is no topic</flux:heading>
+        @endif
         @endif
     </div>
 
