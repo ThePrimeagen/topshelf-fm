@@ -20,6 +20,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
+        "driftingly/rector-laravel": "^2.0",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.0",
         "laravel/pail": "^1.2.2",
@@ -27,9 +28,11 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
+        "peckphp/peck": "^0.1.2",
         "pestphp/pest": "^3.7",
         "pestphp/pest-plugin-drift": "^3.0",
-        "pestphp/pest-plugin-laravel": "^3.1"
+        "pestphp/pest-plugin-laravel": "^3.1",
+        "rector/rector": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -62,6 +65,22 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "test:unit": "./vendor/bin/pest --colors=always --coverage --compact --min=100",
+        "lint": "./vendor/bin/pint",
+        "refactor": "./vendor/bin/rector",
+        "test:lint": "./vendor/bin/pint --test",
+        "test:peck": "./vendor/bin/peck",
+        "test:type-coverage": "./vendor/bin/pest --type-coverage --compact --min=100",
+        "stan": "./vendor/bin/phpstan analyse --ansi",
+        "test:refactor": "rector --dry-run",
+        "test": [
+            "@test:peck",
+            "@test:refactor",
+            "@test:lint",
+            "@stan",
+            "@test:type-coverage",
+            "@test:unit"
         ]
     },
     "extra": {
