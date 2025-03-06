@@ -3,6 +3,7 @@
 use App\Models\Question;
 use App\Models\QuestionVote;
 use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;

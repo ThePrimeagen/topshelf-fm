@@ -1,6 +1,6 @@
 <?php
 
-use App\TwitchSubscription;
+use App\Enums\TwitchSubscription;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;

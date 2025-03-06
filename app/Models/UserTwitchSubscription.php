@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\TwitchSubscription;
+use App\Enums\TwitchSubscription;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

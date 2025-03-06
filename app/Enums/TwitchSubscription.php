@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Enums;
 
 // GOLANG IN ABSOLUTE SHAMBLES!!!!
 enum TwitchSubscription: string
@@ -24,4 +24,4 @@ enum TwitchSubscription: string
             default => 0,
         };
     }
-}
+} 

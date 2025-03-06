@@ -3,6 +3,7 @@
 use Livewire\Volt\Component;
 use App\Models\Question;
 use App\Models\QuestionVote;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 
@@ -11,7 +12,7 @@ new class extends Component {
     public $userVotes = [];
 
     public function mount() {
-        $this->userVotes = auth()->user()->votes()->get()
+        $this->userVotes = Auth::user()->votes()->get()
             ->mapWithKeys(fn($vote) => [$vote->question_id => $vote->count])
             ->toArray();
     }
@@ -22,8 +23,7 @@ new class extends Component {
             'question' => 'required|min:10|max:420',
         ]);
 
-        /** @var \App\Models\User $user */
-        $user = auth()->user();
+        $user = Auth::user();
 
         // TODO: Make this prettier
         if (!$user->canSubmitQuestion()) {
@@ -37,14 +37,14 @@ new class extends Component {
         ]);
 
         // Automatically upvote the user's own question
-        $vote = QuestionVote::upvote($question->id, $user()->id);
+        $vote = QuestionVote::upvote($question->id, $user->id);
         $this->userVotes[$question->id] = $vote->count;
 
         $this->question = "";
     }
 
     public function clearUserQuestion() {
-        auth()->user()->questions()->delete();
+        Auth::user()->questions()->delete();
     }
 
 } ?>
