@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Twitch;
-use App\Enums\TwitchSubscription;
 
 Route::middleware('guest')->group(function () {
     Route::get("login", function () {

@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Livewire\Volt\Component;
+use Livewire\Volt\Volt;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -13,9 +12,7 @@ Route::get('/', function () {
     }
 })->name('home');
 
-Route::get('vote', function () {
-    return view('vote', []);
-})
+Volt::route('/vote', 'vote')
     ->middleware(['auth'])
     ->name('dashboard');
 

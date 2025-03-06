@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Enums\TwitchSubscription;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
