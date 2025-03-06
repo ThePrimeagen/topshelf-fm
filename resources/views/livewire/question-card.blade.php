@@ -16,7 +16,12 @@ new class extends Component {
     public array $userVotes;
     public bool $canEdit;
 
-    public function mount() {
+    public function mount(Question $question, int $voteCount, array $userVotes)
+    {
+        $this->question = $question;
+        $this->voteCount = $voteCount;
+        $this->userVotes = $userVotes;
+
         if (Auth::user() == null) {
             $this->canEdit = false;
         } else {
@@ -25,20 +30,20 @@ new class extends Component {
         }
     }
 
-    public function upvote(Question $question)
+    public function upvote()
     {
-        QuestionVote::upvote($question->id, Auth::user()->id, $this->subscription);
+        QuestionVote::upvote($this->question->id, Auth::user()->id, $this->subscription);
 
         $this->voteCount = $this->question->voteCount();
-        $this->userVotes[$question->id] = 1;
+        $this->userVotes[$this->question->id] = 1;
     }
 
-    public function downvote(Question $question)
+    public function downvote()
     {
-        QuestionVote::downvote($question->id, Auth::user()->id, $this->subscription);
+        QuestionVote::downvote($this->question->id, Auth::user()->id, $this->subscription);
 
         $this->voteCount = $this->question->voteCount();
-        $this->userVotes[$question->id] = -1;
+        $this->userVotes[$this->question->id] = -1;
     }
 
     public function deleteQuestion()
@@ -58,24 +63,25 @@ new class extends Component {
             <flux:text variant="strong">{{ $question->question }}</flux:text>
             <div class="min-h-2"></div>
 
-            <div class="flex jusify-between items-center">
+            <div class="flex justify-between items-center">
                 <div class="flex items-center mr-auto">
                     <flux:text class="w-4 max-w-4 min-w-4 text-sm mr-2 text-zinc-500 dark:text-zinc-400 tabular-nums">
-                        {{ $voteCount }}</flux:text>
+                        <span wire:text="voteCount"></span>
+                    </flux:text>
 
                     <div class="flex items-center gap-2">
                         <div>
-                            <flux:button wire:click="upvote({{ $question->id }})"
-                                variant="{{ ($userVotes[$question->id] ?? 0) > 0 ? 'primary' : 'ghost' }}" size="sm"
-                                class="flex items-center">
+                            <flux:button wire:click="upvote"
+                                variant="{{ ($userVotes[$this->question->id] ?? 0) > 0 ? 'primary' : 'ghost' }}"
+                                size="sm" class="flex items-center">
                                 <flux:icon.hand-thumb-up name="hand-thumb-up" variant="outline"
                                     class="size-4 text-zinc-400 [&_path]:stroke-[2.25]" />
                             </flux:button>
                         </div>
 
                         <div>
-                            <flux:button wire:click="downvote({{ $question->id }})"
-                                variant="{{ ($userVotes[$question->id] ?? 0) < 0 ? 'primary' : 'ghost' }}"
+                            <flux:button wire:click="downvote"
+                                variant="{{ ($userVotes[$this->question->id] ?? 0) < 0 ? 'primary' : 'ghost' }}"
                                 size="sm" class="flex items-center">
                                 <flux:icon.hand-thumb-down name="hand-thumb-down" variant="outline"
                                     class="size-4 text-zinc-400 [&_path]:stroke-[2.25]" />

@@ -93,7 +93,7 @@ new class extends Component {
             <ul>
                 @foreach (Question::getRecentQuestions() as $question)
                 <li wire:key="recent-li-{{ $question->id }}">
-                    <livewire:question-card @question-deleted="$refresh" :question="$question" :vote-count="$question->votes" :key="'recent-'.$question->id" />
+                    <livewire:question-card @question-deleted="$refresh" :user-votes="$userVotes" :question="$question" :vote-count="$question->votes" :key="'recent-'.$question->id" />
                 </li>
                 @endforeach
             </ul>

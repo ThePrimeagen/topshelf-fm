@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TwitchSubscription;
 use App\Models\Question;
 use App\Models\Topic;
 use App\Models\User;
@@ -16,8 +17,11 @@ class VoteComponentTest extends TestCase
     {
         // Create a user with a Tier1 subscription
         $user = User::factory()->create();
+        $subscription = TwitchSubscription::Tier1;
         UserTwitchSubscription::factory()->create([
             'user_id' => $user->id,
+            'broadcaster_id' => config('services.twitch.broadcaster_id'),
+            'twitch_subscription' => $subscription,
         ]);
 
         // Create a topic (required for canSubmitQuestion to return true)
@@ -46,7 +50,7 @@ class VoteComponentTest extends TestCase
         $this->assertDatabaseHas('question_votes', [
             'user_id' => $user->id,
             'question_id' => $question->id,
-            'count' => 1,
+            'count' => $subscription->getVoteValue(),
         ]);
     }
 

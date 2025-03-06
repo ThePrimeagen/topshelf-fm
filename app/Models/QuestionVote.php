@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Enums\TwitchSubscription;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 
@@ -46,19 +47,8 @@ class QuestionVote extends Model
      */
     protected $guarded = [];
 
-    /**
-     * The primary key for the model.
-     *
-     * @var array
-     */
-    protected $primaryKey = ['user_id', 'question_id'];
-
-    /**
-     * Indicates if the model's ID is auto-incrementing.
-     *
-     * @var bool
-     */
     public $incrementing = false;
+    protected $primaryKey = ['user_id', 'question_id'];
 
     /**
      * Get the question that the vote belongs to.
@@ -84,7 +74,7 @@ class QuestionVote extends Model
      * @param TwitchSubscription $subscription
      * @return QuestionVote
      */
-    public static function upvote(int $questionId, int $userId, TwitchSubscription $subscription = TwitchSubscription::None): QuestionVote
+    public static function upvote(int $questionId, int $userId, TwitchSubscription $subscription): QuestionVote
     {
         $voteWeight = $subscription->getVoteValue();
         return static::vote($questionId, $userId, $voteWeight);
@@ -98,7 +88,7 @@ class QuestionVote extends Model
      * @param TwitchSubscription $subscription
      * @return QuestionVote
      */
-    public static function downvote(int $questionId, int $userId, TwitchSubscription $subscription = TwitchSubscription::None): QuestionVote
+    public static function downvote(int $questionId, int $userId, TwitchSubscription $subscription): QuestionVote
     {
         $voteWeight = $subscription->getVoteValue();
         return static::vote($questionId, $userId, -$voteWeight);
@@ -114,15 +104,24 @@ class QuestionVote extends Model
      */
     private static function vote(int $questionId, int $userId, int $count): QuestionVote
     {
-        return static::updateOrCreate(
-            [
-                'question_id' => $questionId,
-                'user_id' => $userId,
-            ],
-            [
-                'count' => $count,
-            ]
-        );
+        $vote = static::whereUserId($userId)->whereQuestionId($questionId)->first();
+
+        if ($vote) {
+            $vote->count = $count;
+
+            // We can't use save, because the primary key is composite
+            DB::table('question_votes')->where('user_id', $userId)->where('question_id', $questionId)->update(['count' => $count]);
+
+            return $vote;
+        } else {
+            $vote = new static();
+            $vote->user_id = $userId;
+            $vote->question_id = $questionId;
+            $vote->count = $count;
+            $vote->save();
+
+            return $vote;
+        }
     }
 
     /**
