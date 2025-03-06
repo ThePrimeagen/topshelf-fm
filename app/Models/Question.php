@@ -7,6 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $user_id
+ * @property string $question
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionVote> $votes
+ * @property-read int|null $votes_count
+ * @method static \Database\Factories\QuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereQuestion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Question extends Model
 {
     use HasFactory;
