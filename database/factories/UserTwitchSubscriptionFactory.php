@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\TwitchSubscription;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class UserTwitchSubscriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'broadcaster_id' => User::getBroadcasterID(),
+            'twitch_subscription' => TwitchSubscription::Tier1->value,
         ];
     }
 }
