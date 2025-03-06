@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Question;
+use App\Models\QuestionVote;
 use Flux\Flux;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -22,15 +23,7 @@ new class extends Component {
 
     public function upvote(Question $question)
     {
-        DB::table('question_votes')->updateOrInsert(
-            [
-                'question_id' => $question->id,
-                'user_id' => Auth::user()->id,
-            ],
-            [
-                'count' => 1,
-            ],
-        );
+        QuestionVote::upvote($question->id, Auth::user()->id);
 
         $this->voteCount = $this->question->voteCount();
         $this->userVotes[$question->id] = 1;
@@ -38,15 +31,7 @@ new class extends Component {
 
     public function downvote(Question $question)
     {
-        DB::table('question_votes')->updateOrInsert(
-            [
-                'question_id' => $question->id,
-                'user_id' => Auth::user()->id,
-            ],
-            [
-                'count' => -1,
-            ],
-        );
+        QuestionVote::downvote($question->id, Auth::user()->id);
 
         $this->voteCount = $this->question->voteCount();
         $this->userVotes[$question->id] = -1;

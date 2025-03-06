@@ -3,13 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Question extends Model
 {
     protected $guarded = [];
-    public function user()
+    
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the votes for the question.
+     */
+    public function votes(): HasMany
+    {
+        return $this->hasMany(QuestionVote::class);
     }
 
     public static function getSortedQuestions($limit = 50)
@@ -38,11 +49,6 @@ class Question extends Model
 
     public function voteCount(): int
     {
-        return self::query()
-            ->leftJoin('question_votes', 'questions.id', '=', 'question_votes.question_id')
-            ->selectRaw('questions.*, coalesce(sum(question_votes.count), 0) as votes')
-            ->where('questions.id', $this->id)
-            ->groupBy('questions.id')
-            ->first()->votes;
+        return QuestionVote::getVoteCount($this->id);
     }
 }

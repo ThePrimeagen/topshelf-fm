@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Models\Question;
+use App\Models\QuestionVote;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 
@@ -21,16 +22,23 @@ new class extends Component {
             'question' => 'required|min:10|max:420',
         ]);
 
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+
         // TODO: Make this prettier
-        if (!auth()->user()->canSubmitQuestion()) {
+        if (!$user->canSubmitQuestion()) {
             throw ValidationException::withMessages([
                 'question' => 'You have reached the question limit',
             ]);
         }
 
-        auth()->user()->questions()->create([
+        $question = $user->questions()->create([
             'question' => $this->question,
         ]);
+
+        // Automatically upvote the user's own question
+        $vote = QuestionVote::upvote($question->id, $user()->id);
+        $this->userVotes[$question->id] = $vote->count;
 
         $this->question = "";
     }
