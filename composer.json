@@ -16,6 +16,7 @@
         "livewire/flux": "^2.0",
         "livewire/flux-pro": "^2.0",
         "livewire/volt": "^1.6.7",
+        "ramsey/uuid": "^4.7",
         "sentry/sentry-laravel": "^4.13"
     },
     "require-dev": {

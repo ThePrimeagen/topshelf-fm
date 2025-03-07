@@ -2,6 +2,7 @@
     <div class="mr-10 w-full pb-4 md:w-[220px]">
         <flux:navlist>
             <flux:navlist.item href="{{ route('settings') }}" wire:navigate>{{ __('Profile') }}</flux:navlist.item>
+            <flux:navlist.item href="{{ route('game-token') }}" wire:navigate>{{ __('Game Token') }}</flux:navlist.item>
         </flux:navlist>
     </div>
 

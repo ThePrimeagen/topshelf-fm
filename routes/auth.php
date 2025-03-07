@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Twitch;
-use App\TwitchSubscription;
 
 Route::middleware('guest')->group(function () {
     Route::get("login", function () {
@@ -19,6 +18,7 @@ Route::middleware('guest')->group(function () {
     Route::get("twitch/auth", function () {
         try {
             $twitchUser = Socialite::driver("twitch")->user();
+            Twitch::saveGameToken($twitchUser->id);
 
             $user = User::updateOrCreate([
                 "twitch_id" => $twitchUser->id,

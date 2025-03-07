@@ -36,4 +36,8 @@ return [
         "friend_ids" => array_filter(explode(",", env("TWITCH_FRIEND_IDS", ''))),
     ],
 
+    "turso" => [
+        "url" => env("TURSO_DATABASE_URL"),
+        "token" => env("TURSO_AUTH_TOKEN"),
+    ]
 ];

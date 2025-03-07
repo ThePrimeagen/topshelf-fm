@@ -3,6 +3,7 @@
 use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use Livewire\Volt\Component;
 
 Route::get('/', function () {
@@ -29,6 +30,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings', function () {
         return view('livewire.settings.profile');
     })->name('settings');
+
+    // volt route for settings.profile
+    Route::get('game-token', function () {
+        return view('livewire.settings.game-token');
+    })->name('game-token');
 });
 
 require __DIR__ . '/auth.php';
