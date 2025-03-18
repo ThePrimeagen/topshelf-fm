@@ -18,6 +18,23 @@
             </flux:navbar>
 
             <flux:spacer />
+            <flux:spacer />
+            <flux:spacer />
+
+            <flux:spacer />
+
+            <div class="flex items-center gap-4 mr-4">
+                <a class="focus-visible:shadow-xs-selected rounded-md focus:outline-hidden" href="https://sentry.io"">
+<svg class="css-lfbo6j e1igk8x04" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 66" width="25" height="23"><path d="M29,2.26a4.67,4.67,0,0,0-8,0L14.42,13.53A32.21,32.21,0,0,1,32.17,40.19H27.55A27.68,27.68,0,0,0,12.09,17.47L6,28a15.92,15.92,0,0,1,9.23,12.17H4.62A.76.76,0,0,1,4,39.06l2.94-5a10.74,10.74,0,0,0-3.36-1.9l-2.91,5a4.54,4.54,0,0,0,1.69,6.24A4.66,4.66,0,0,0,4.62,44H19.15a19.4,19.4,0,0,0-8-17.31l2.31-4A23.87,23.87,0,0,1,23.76,44H36.07a35.88,35.88,0,0,0-16.41-31.8l4.67-8a.77.77,0,0,1,1.05-.27c.53.29,20.29,34.77,20.66,35.17a.76.76,0,0,1-.68,1.13H40.6q.09,1.91,0,3.81h4.78A4.59,4.59,0,0,0,50,39.43a4.49,4.49,0,0,0-.62-2.28Z" transform="translate(11, 11)" fill="#362d59"></path></svg>
+                </a>
+
+                <a class="focus-visible:shadow-xs-selected rounded-md focus:outline-hidden" href="https://cloud.laravel.com">
+                    <svg class="text-strong size-6 shrink-0" viewBox="0 0 98 98" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M97.466 64.97 64.98 97.457H0v-64.97L32.485 0h64.98v64.98-.01Zm-64.98-45.477v6.501h38.986v38.987h6.5V19.493H32.486Zm0-6.5h51.978V64.97h6.5V6.49H32.486v6.501Zm0 19.492v32.486H64.97V32.485H32.485Z" fill="currentColor" data-darkreader-inline-fill="" style="--darkreader-inline-fill: currentColor;">
+                        </path>
+                    </svg>
+                </a>
+            </div>
 
             <!-- Desktop User Menu -->
             <flux:dropdown position="top" align="end">
@@ -62,6 +79,7 @@
                     </form>
                 </flux:menu>
             </flux:dropdown>
+
         </flux:header>
 
         <!-- Mobile Menu -->
@@ -80,6 +98,7 @@
                 </flux:navlist.group>
             </flux:navlist>
         </flux:sidebar>
+
 
         {{ $slot }}
 
