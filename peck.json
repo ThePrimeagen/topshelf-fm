@@ -1,0 +1,8 @@
+{
+    "preset": "laravel",
+    "ignore": {
+        "words": ["php", "ds"],
+        "paths": []
+    }
+}
+
