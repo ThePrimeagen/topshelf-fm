@@ -70,7 +70,7 @@ new class extends Component {
             <flux:text variant="strong">{{ $question->question }}</flux:text>
             <div class="min-h-2"></div>
 
-            <div class="flex jusify-between items-center">
+            <div class="flex justify-between items-center">
                 <div class="flex items-center mr-auto">
                     <flux:text class="w-4 max-w-4 min-w-4 text-sm mr-2 text-zinc-500 dark:text-zinc-400 tabular-nums">
                         {{ $voteCount }}</flux:text>
